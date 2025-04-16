@@ -60,17 +60,17 @@ logs
 *.temp
 
 # Development scripts and tools
-/scripts
-/dev-tools
+/backend/src/scripts/
+/dev-tools/
+/scripts/
 *.dev.ts
 *.dev.js
-hash*.ts
-hash*.js
-check*.ts
-check*.js
+*password*.ts
+*password*.js
+*admin*.ts
+*admin*.js
 
-# Password and sensitive data
-*password*
-*secret*
-*key*
-*credential* 
+# Database initialization scripts (except the main one)
+/backend/init-*.sql
+/backend/test-*.sql
+/backend/dev-*.sql 
