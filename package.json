@@ -2,8 +2,12 @@
   "name": "dbmsproject",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bootstrap": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && npm start",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
   },
   "keywords": [],
   "author": "",
