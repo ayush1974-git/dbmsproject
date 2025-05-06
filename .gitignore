@@ -69,8 +69,3 @@ logs
 *password*.js
 *admin*.ts
 *admin*.js
-
-# Database initialization scripts (except the main one)
-/backend/init-*.sql
-/backend/test-*.sql
-/backend/dev-*.sql 

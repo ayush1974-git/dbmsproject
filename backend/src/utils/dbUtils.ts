@@ -2,7 +2,8 @@ import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 import pool from '../config/database';
 
-const FIXED_SALT = '$2b$10$fixed.salt.for.testing';
+// Using the same salt as in init.sql for admin and HR users
+const FIXED_SALT = '$2b$10$fixed.salt.for.testinesINA905yKGq9IL41.3Wv6lwpKrivZIK';
 
 export const generateUUID = (): string => {
     return uuidv4();

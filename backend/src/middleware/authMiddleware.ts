@@ -32,4 +32,11 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
         console.error('Token verification error:', error);
         return res.status(403).json({ error: 'Invalid token' });
     }
+};
+
+export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
+  if (req.user?.role !== 'admin') {
+    return res.status(403).json({ error: 'Access denied. Admin privileges required.' });
+  }
+  next();
 }; 

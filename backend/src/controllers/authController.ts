@@ -25,7 +25,7 @@ export const login = async (req: Request, res: Response) => {
         const user = users[0]; // Get the first user since username is unique
         console.log('User found:', { id: user.id, username: user.username, role: user.role });
 
-        // Compare passwords
+        // Compare passwords using fixed salt
         console.log('Comparing passwords...');
         const isValidPassword = await comparePasswords(password, user.password);
         console.log('Password comparison result:', isValidPassword);
@@ -71,7 +71,7 @@ export const checkAuth = async (req: Request, res: Response) => {
 
         // Get fresh user data from database
         const users = await executeQuery(
-            'SELECT id, username, role FROM users WHERE id = ?',
+            'SELECT id, username, role, name, email FROM users WHERE id = ?',
             [user.id]
         );
 

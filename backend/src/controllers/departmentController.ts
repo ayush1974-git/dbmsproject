@@ -137,19 +137,10 @@ export const getDepartmentEmployees = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
 
-        // Check if department exists
-        const department = await executeQuery(
-            'SELECT * FROM departments WHERE id = ?',
-            [id]
-        );
-
-        if (!department || department.length === 0) {
-            return res.status(404).json({ error: 'Department not found' });
-        }
-
-        // Get employees in department
-        const employees = await executeQuery(
+        // Get department details and employees in one query
+        const result = await executeQuery(
             `SELECT 
+                d.name as department_name,
                 e.id,
                 e.name,
                 e.email,
@@ -158,13 +149,29 @@ export const getDepartmentEmployees = async (req: Request, res: Response) => {
                 e.location,
                 e.join_date,
                 e.phone
-            FROM employees e
-            WHERE e.department_id = ?
+            FROM departments d
+            LEFT JOIN employees e ON e.department_id = d.id
+            WHERE d.id = ?
             ORDER BY e.name`,
             [id]
         );
 
-        res.json(employees);
+        if (!result || result.length === 0) {
+            return res.status(404).json({ error: 'Department not found' });
+        }
+
+        // Extract department name from first row
+        const departmentName = result[0].department_name;
+        
+        // Filter out rows without employees and remove department_name from employee objects
+        const employees = result
+            .filter((row: any) => row.id !== null)
+            .map(({ department_name, ...employee }: { department_name: string, [key: string]: any }) => employee);
+
+        res.json({
+            department_name: departmentName,
+            employees
+        });
     } catch (error) {
         console.error('Error fetching department employees:', error);
         res.status(500).json({ error: 'Failed to fetch department employees' });
